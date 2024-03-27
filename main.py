@@ -6,6 +6,17 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 TRANSARENT = (0, 0, 0, 0)
+DELAY = 5000
+
+class Helper:
+    def __init__(self):
+        pass
+    
+    def calculateFitSize(self):
+        pass
+    
+    def getFixPosition(self):
+        pass
 
 class HeroPlayer(pg.sprite.Sprite):
     def __init__(self, pos):
@@ -17,11 +28,16 @@ class HeroPlayer(pg.sprite.Sprite):
         self.px = pos[0]
         self.py = pos[1]
         
-        self.image = pg.Surface((100, 100), pg.SRCALPHA)
-        self.image.fill(BLACK)
-        pg.draw.circle(self.image, RED, (50, 50), 50)
+        self.image = pg.Surface((120, 50), pg.SRCALPHA)
+        self.image.fill(TRANSARENT)
+        # pg.draw.circle(self.image, RED, (50, 50), 50)
+        # self.obj = pg.load
+        image = pg.image.load("rectangle.png")
+        self.image.blit(image, (10, 0))
         
         self.original_image = self.image
+        
+        # get the center of the surface
         self.rect = self.image.get_rect(center=pos)
         
     # rotation
@@ -46,11 +62,13 @@ class HeroPlayer(pg.sprite.Sprite):
         self.py += sin(self.angle * pi / 180) * self.vel
         self.rect.center = (self.px, self.py)
     
-    def reflect(self):
+    # reflection
+    def reflect(self):    
         self.image = pg.transform.flip(self.image, True, False)
 
 def main():
     pg.init()
+    clock = pg.time.Clock()
     
     screen = pg.display.set_mode((720, 480))
     run = True
