@@ -22,6 +22,8 @@ class HeroPlayer(pg.sprite.Sprite):
     def __init__(self, pos):
         super(HeroPlayer, self).__init__()
         
+        self.space_pressed = False
+        
         self.angle = 0
         self.vel = 0.4
         
@@ -63,8 +65,8 @@ class HeroPlayer(pg.sprite.Sprite):
         self.rect.center = (self.px, self.py)
     
     # reflection
-    def reflect(self):    
-        self.image = pg.transform.flip(self.image, True, False)
+    def reflect(self):
+        self.image = pg.transform.flip(self.image, flip_x=True, flip_y=False)
 
 def main():
     pg.init()
@@ -98,8 +100,11 @@ def main():
         if key[pg.K_DOWN] or key[pg.K_s]:
             player.backward()
         
-        if key[pg.K_SPACE]:
+        if key[pg.K_SPACE] and not player.space_pressed:
             player.reflect()
+            player.space_pressed = True
+        elif not key[pg.K_SPACE]:
+            player.space_pressed = False
         
         playerhero.draw(screen)
         pg.display.flip()
